@@ -1,0 +1,36 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with 'go test -c'
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below if you're planning to use modules)
+# vendor/
+
+# Compiled Object files, Static and Dynamic libs (remove the comment below if you're planning to use modules)
+# *.o
+# *.a
+
+# Generated files by go generate
+*_gen.go
+
+# Build directory (remove the comment below if you're planning to use modules)
+# build/
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+
+# Output files of gofmt
+*.fmt
+
+# macOS directory attributes
+.DS_Store
