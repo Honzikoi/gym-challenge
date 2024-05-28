@@ -2,14 +2,14 @@ package main
 
 import (
 	"github.com/Honzikoi/gym-challenge/database"
-	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	setupRoute(app)
-	
+	setupRoutes(app)
+
 	app.Listen(":3000")
 }
