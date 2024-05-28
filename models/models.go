@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Users struct {
 	gorm.Model
@@ -23,4 +25,11 @@ type Sessions struct {
 	Name        string `json:"name" gorm:"text;not null;default:null"`
 	Description string `json:"user_id" gorm:"text;not null"`
 	Group_id    int    `json:"group_id" gorm:"int;not null"`
+}
+
+type Role struct {
+	gorm.Model
+	Name        string `json:"name" gorm:"text;not null"`
+	Description string `json:"description" gorm:"text;not null"`
+	Permissions string `json:"permissions" gorm:"text;not null"`
 }
