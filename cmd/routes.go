@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/Honzikoi/gym-challenge/handlers"
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,18 +9,10 @@ import (
 func setupRoutes(app *fiber.App) {
 	// Public routes
 	app.Get("/", handlers.Home)
+	app.Post("/signup", handlers.SignUp)
 	app.Post("/login", handlers.Login)
+	app.Get("/profile", handlers.Profile)
+	// app.Get("/auth/google", handlers.GoogleLogin)
+	// app.Get("/auth/google/callback", handlers.GoogleCallback)
 
-    app.Use("/profile", jwt.New(jwt.Config{
-        SigningKey: []byte(os.Getenv("SECRET_KEY")),
-        ContextKey: "user", // This is the key to access the user in the handlers
-    }))
-    app.Get("/profile", handlers.Profile)
-
-	// JWT Protected routes
-	protected := app.Group("/", jwt.New(jwt.Config{
-		SigningKey: []byte(os.Getenv("SECRET_KEY")),
-	}))
-
-	protected.Get("/profile", handlers.Profile)
 }

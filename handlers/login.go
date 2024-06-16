@@ -1,47 +1,65 @@
 package handlers
 
 import (
+	"os"
 	"time"
 
+	"github.com/Honzikoi/gym-challenge/database"
+	"github.com/Honzikoi/gym-challenge/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func login(c *fiber.Ctx) error {
-	user := c.FormValue("user")
-	pass := c.FormValue("pass")
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
 
-	// Throws Unauthorized error
-	if user != "john" || pass != "doe" {
-		return c.SendStatus(fiber.StatusUnauthorized)
+func Login(c *fiber.Ctx) error {
+	db := database.DB.Db
+
+	var req LoginRequest
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request payload",
+		})
 	}
 
-	// Create the Claims
-	claims := jwt.MapClaims{
-		"name":  "John Doe",
-		"admin": true,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+	var user models.Users
+	if err := db.Where("email = ?", req.Email).First(&user).Error; err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Invalid email or password",
+		})
 	}
 
-	// Create token
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Invalid email or password",
+		})
+	}
 
-	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte("secret"))
+	token, err := generateJWT(user)
 	if err != nil {
-		return c.SendStatus(fiber.StatusInternalServerError)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to generate token",
+		})
 	}
 
-	return c.JSON(fiber.Map{"token": t})
+	return c.JSON(fiber.Map{
+		"token": token,
+	})
 }
 
-func accessible(c *fiber.Ctx) error {
-	return c.SendString("Accessible")
-}
+func generateJWT(user models.Users) (string, error) {
+	jwtSecret := []byte(os.Getenv("JWT_SECRET"))
 
-func restricted(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-	name := claims["name"].(string)
-	return c.SendString("Welcome " + name)
+	claims := jwt.MapClaims{
+		"authorized": true,
+		"user_id":    user.ID,
+		"exp":        time.Now().Add(time.Hour * 24).Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
 }
