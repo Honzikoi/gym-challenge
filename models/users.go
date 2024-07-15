@@ -9,5 +9,5 @@ type Users struct {
 	Email    string `json:"email" gorm:"text;not null"`
 	Username string `json:"username" gorm:"text;not null"`
 	Password string `json:"password" gorm:"text;not null"`
-	Role  []Role   `json:"role_id" gorm:"int;not null;default:1"`
+	Roles  []Role   `json:"role_id" gorm:"foreignKey:UserID"`
 }
