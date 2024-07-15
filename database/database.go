@@ -47,7 +47,7 @@ func ConnectDb() {
 	db.Logger = logger.Default.LogMode(logger.Info)
 
 	log.Println("Running Migrations...")
-	err = db.AutoMigrate(&models.Users{}, &models.Groups{}, &models.Sessions{}, &models.Role{}, &models.About{}, &models.LoginRequest{}, &models.LoginResponse{})
+	err = db.AutoMigrate(&models.Users{}, &models.Groups{}, &models.Sessions{}, &models.Role{}, &models.About{}, &models.LoginRequest{}, &models.LoginResponse{}, &models.Gym{}, &models.Equipment{})
 	if err != nil {
 		log.Fatal("Failed to run migrations! \n", err)
 		os.Exit(2)
