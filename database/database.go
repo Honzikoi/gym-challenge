@@ -18,13 +18,22 @@ type Dbinstance struct {
 var DB Dbinstance
 
 func ConnectDb() {
-	dsn := fmt.Sprintf(
-		"host=db user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	)
+	var dsn string
+	if os.Getenv("DATABASE_URL") != "" {
+		// Use Heroku DATABASE_URL
+		dsn = os.Getenv("DATABASE_URL")
+	} else {
+		// Use local environment variables
+		dsn = fmt.Sprintf(
+			"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+			os.Getenv("DB_HOST"),
+			os.Getenv("DB_USER"),
+			os.Getenv("DB_PASSWORD"),
+			os.Getenv("DB_NAME"),
+			os.Getenv("DB_PORT"),
+		)
+	}
+
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
@@ -38,7 +47,7 @@ func ConnectDb() {
 	db.Logger = logger.Default.LogMode(logger.Info)
 
 	log.Println("Running Migrations...")
-	db.AutoMigrate(&models.Users{}, &models.Groups{}, &models.Sessions{}, &models.Role{}, &models.About{}, &models.LoginRequest{}, &models.LoginResponse{})
+	err = db.AutoMigrate(&models.Users{}, &models.Groups{}, &models.Sessions{}, &models.Role{}, &models.About{}, &models.LoginRequest{}, &models.LoginResponse{})
 	if err != nil {
 		log.Fatal("Failed to run migrations! \n", err)
 		os.Exit(2)

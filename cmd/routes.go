@@ -12,6 +12,8 @@ import (
 		app.Get("/", handlers.Home)
 		app.Post("/signup", handlers.SignUp)
 		app.Post("/login", handlers.Login)
+		app.Post("/logout", handlers.Logout)
+
 		// Protected routes
 		app.Use("/profile", middlewares.Protected())
 		app.Get("/profile", handlers.Profile)
