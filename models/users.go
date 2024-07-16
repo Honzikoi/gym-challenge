@@ -12,10 +12,4 @@ type Users struct {
 	Roles  []Role   `json:"role_id" gorm:"foreignKey:UserID;references:ID"`
 }
 
-type Role struct {
-	gorm.Model
-	Name        string `json:"name" gorm:"text;not null"`
-	Description string `json:"description" gorm:"text;not null"`
-	Permissions string `json:"permissions" gorm:"text;not null"`
-	Users []Users `gorm:"many2many:user_roles;"`
-}
+
