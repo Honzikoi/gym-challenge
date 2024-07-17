@@ -28,6 +28,9 @@ import (
 		routes.GroupRoutes(app)
 		routes.WorkoutRoutes(app)
 		routes.SwaggerRoutes(app)
+		routes.ConnectionRoutes(app)
+		routes.AboutRoutes(app)
+		routes.SessionRoutes(app)
 
 		// Protected routes
 		app.Use("/profile", middlewares.Protected())
