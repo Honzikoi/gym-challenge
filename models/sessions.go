@@ -10,10 +10,5 @@ type Sessions struct {
 	Description string    `json:"user_id" gorm:"text;not null"`
 	Group_id    int       `json:"group_id" gorm:"int;not null"`
 	Workouts    []Workout `json:"workouts" gorm:"foreignKey:SessionID"`
-}
-
-type UserGroup struct {
-	UserID  uint
-	GroupID uint
-	Status  string // "pending", "approved", "rejected"
+	Type        string    `json:"type" gorm:"text"`
 }

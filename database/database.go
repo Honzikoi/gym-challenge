@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Honzikoi/gym-challenge/fixtures"
 	"github.com/Honzikoi/gym-challenge/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -46,7 +47,7 @@ func ConnectDb() {
 	db.Logger = logger.Default.LogMode(logger.Info)
 
 	log.Println("Running Migrations...")
-	err = db.AutoMigrate(&models.Users{}, 
+	err = db.AutoMigrate(&models.Users{},
 		&models.Group{},
 		&models.Sessions{},
 		&models.Role{},
@@ -71,4 +72,6 @@ func ConnectDb() {
 	DB = Dbinstance{
 		Db: db,
 	}
+
+	fixtures.FixtureLauncher()
 }

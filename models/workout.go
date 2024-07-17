@@ -21,9 +21,3 @@ type Workout struct {
 	IsWorkoutOfDay    bool    `json:"isWorkoutOfDay"`
 	SessionID         uint    `json:"sessionID"`
 }
-
-type Session struct {
-	gorm.Model
-	Title    string    `json:"title"`
-	Workouts []Workout `json:"workouts"`
-}

@@ -2,29 +2,21 @@ package fixtures
 
 import (
 	"log"
-
-	"github.com/Honzikoi/gym-challenge/database"
-	"github.com/Honzikoi/gym-challenge/models"
-	"golang.org/x/crypto/bcrypt"
 )
 
-// CreateUserFixture creates a user fixture for testing
-func CreateUserFixture() {
-	password, err := bcrypt.GenerateFromPassword([]byte("test"), bcrypt.DefaultCost)
-	if err != nil {
-		log.Fatal("Failed to hash password: ", err)
+// FixtureLauncher launches all the fixtures
+func FixtureLauncher() {
+	if err := CreateUserFixture(); err != nil {
+		log.Fatalf("Could not load user fixtures: %v", err)
 	}
 
-	user := models.Users{
-		Username: "test",
-		Email:    "test@test.test",
-		Password: string(password),
+	if err := LoadWorkoutFixtures(); err != nil {
+		log.Fatalf("Could not load workout fixtures: %v", err)
 	}
 
-	result := database.DB.Db.Create(&user)
-	if result.Error != nil {
-		log.Fatal("Failed to create user fixture: ", result.Error)
+	if err := LoadSessionFixtures(); err != nil {
+		log.Fatalf("Could not load session fixtures: %v", err)
 	}
 
-	log.Println("User fixture created successfully")
+	// Add other fixture calls here
 }

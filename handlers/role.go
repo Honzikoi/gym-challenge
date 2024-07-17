@@ -7,26 +7,26 @@ import (
 )
 
 func AssignRole(c *fiber.Ctx) error {
-    type Request struct {
-        UserID uint   `json:"user_id"`
-        RoleID uint   `json:"role_id"`
-    }
+	type Request struct {
+		UserID uint `json:"user_id"`
+		RoleID uint `json:"role_id"`
+	}
 
-    var request Request
-    if err := c.BodyParser(&request); err != nil {
-        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
-    }
+	var request Request
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+	}
 
-    var user models.Users
-    var role models.Role
+	var user models.Users
+	var role models.Role
 
-    if err := database.DB.Db.First(&user, request.UserID).Error; err != nil {
-        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
-    }
-    if err := database.DB.Db.First(&role, request.RoleID).Error; err != nil {
-        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Role not found"})
-    }
+	if err := database.DB.Db.First(&user, request.UserID).Error; err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
+	}
+	if err := database.DB.Db.First(&role, request.RoleID).Error; err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Role not found"})
+	}
 
-    database.DB.Db.Model(&user).Association("Roles").Append(&role)
-    return c.JSON(user)
+	database.DB.Db.Model(&user).Association("Roles").Append(&role)
+	return c.JSON(user)
 }
