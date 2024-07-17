@@ -7,9 +7,9 @@ import (
 )
 
 type Comment struct {
-    gorm.Model
-    Title        string    `gorm:"type:varchar(255)"`
-    UserID       int       `gorm:"index"`
-    CreationDate time.Time `gorm:"type:timestamp"`
-    CreationTime time.Time `gorm:"type:timestamp"`
+	gorm.Model
+	Title        string    `gorm:"type:varchar(255)"`
+	UserID       int       `gorm:"index"`
+	CreationDate time.Time `gorm:"type:timestamp"`
+	CreationTime time.Time `gorm:"type:timestamp"`
 }

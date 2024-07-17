@@ -6,7 +6,7 @@ import (
 
 type PhysicalObjective struct {
 	gorm.Model
-	Weight     float32 
+	Weight     float32
 	Height     float32
 	BicepsSize float32
 	HipsSize   float32

@@ -7,13 +7,13 @@ import (
 )
 
 type About struct {
-    gorm.Model
-    Name      string    `json:"name" gorm:"type:varchar(255)"`
-    Surname   string    `json:"surname" gorm:"type:varchar(255)"`
-    Description string  `json:"description" gorm:"type:text"`
-    Notes     string    `json:"notes" gorm:"type:text"`
-    Address   string    `json:"address" gorm:"type:varchar(255)"`
-    Gender    string    `json:"gender" gorm:"type:varchar(255)"`
-    Age       time.Time `json:"age" gorm:"type:datetime"`
-	Users     []Users   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	gorm.Model
+	UserID      uint      `json:"user_id"`
+	Name        string    `json:"name" gorm:"type:varchar(255)"`
+	Surname     string    `json:"surname" gorm:"type:varchar(255)"`
+	Description string    `json:"description" gorm:"type:text"`
+	Notes       string    `json:"notes" gorm:"type:text"`
+	Address     string    `json:"address" gorm:"type:varchar(255)"`
+	Gender      string    `json:"gender" gorm:"type:varchar(255)"`
+	Age         time.Time `json:"age" gorm:"type:datetime"`
 }
