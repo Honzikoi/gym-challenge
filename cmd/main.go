@@ -35,7 +35,7 @@ func main() {
 	setupRoutes(app)
 
 	// Seed the database
-	database.Seed(database.DB.Db)
+	// database.Seed(database.DB.Db) Temp Comment
 
 	// Get the port from environment variable or default to 3000
 	port := os.Getenv("PORT")
