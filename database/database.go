@@ -73,5 +73,11 @@ func ConnectDb() {
 		Db: db,
 	}
 
-	fixtures.FixtureLauncher()
+	if err := fixtures.LoadWorkoutFixtures(db); err != nil {
+		log.Fatalf("Could not load workout fixtures: %v", err)
+	}
+
+	if err := fixtures.LoadSessionFixtures(db); err != nil {
+		log.Fatalf("Could not load session fixtures: %v", err)
+	}
 }

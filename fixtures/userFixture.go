@@ -1,13 +1,6 @@
 package fixtures
 
-import (
-	"log"
-
-	"github.com/Honzikoi/gym-challenge/database"
-	"github.com/Honzikoi/gym-challenge/models"
-	"golang.org/x/crypto/bcrypt"
-)
-
+/*
 func CreateUserFixture() error {
 	password, err := bcrypt.GenerateFromPassword([]byte("test"), bcrypt.DefaultCost)
 	if err != nil {
@@ -28,3 +21,4 @@ func CreateUserFixture() error {
 	log.Println("User fixture created successfully")
 	return nil
 }
+*/
