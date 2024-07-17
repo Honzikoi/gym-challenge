@@ -19,23 +19,23 @@ import (
 //	@BasePath		/
 
 // SetupRoutes sets up all the routes for the application
-	func setupRoutes(app *fiber.App) {
-		// Public routes
-		app.Get("/", handlers.Home)
+func setupRoutes(app *fiber.App) {
+	// Public routes
+	app.Get("/", handlers.Home)
 
-		routes.ConnectionRoutes(app)
-		routes.GymRoutes(app)
-		routes.GroupRoutes(app)
-		routes.WorkoutRoutes(app)
-		routes.SwaggerRoutes(app)
-		routes.ConnectionRoutes(app)
-		routes.AboutRoutes(app)
-		routes.SessionRoutes(app)
+	routes.ConnectionRoutes(app)
+	routes.GymRoutes(app)
+	routes.GroupRoutes(app)
+	routes.WorkoutRoutes(app)
+	routes.SwaggerRoutes(app)
+	routes.ConnectionRoutes(app)
+	routes.AboutRoutes(app)
+	routes.SessionRoutes(app)
 
-		// Protected routes
-		app.Use("/profile", middlewares.Protected())
-		app.Get("/profile", handlers.Profile)
-		// app.Get("/auth/google", handlers.GoogleLogin)
-		// app.Get("/auth/google/callback", handlers.GoogleCallback)
+	// Protected routes
+	app.Use("/profile", middlewares.Protected())
+	app.Get("/profile", handlers.Profile)
+	// app.Get("/auth/google", handlers.GoogleLogin)
+	// app.Get("/auth/google/callback", handlers.GoogleCallback)
 
-	}
+}

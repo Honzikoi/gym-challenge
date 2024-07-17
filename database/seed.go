@@ -16,6 +16,9 @@ func Seed(db *gorm.DB) {
 		if err := seedGroups(tx); err != nil {
 			return err
 		}
+		if err := seedUserGroups(tx); err != nil {
+			return err
+		}
 		if err := seedSessions(tx); err != nil {
 			return err
 		}
@@ -29,7 +32,9 @@ func Seed(db *gorm.DB) {
 
 func seedUsers(db *gorm.DB) error {
 	users := []models.Users{
-		{Username: "test", Email: "test@test.test", Password: "test"},
+		{Username: "test1", Email: "test1@test.test", Password: "test"},
+		{Username: "test2", Email: "test2@test.test", Password: "test"},
+		{Username: "test3", Email: "test3@test.test", Password: "test"},
 	}
 	return db.Create(&users).Error
 }
@@ -41,6 +46,18 @@ func seedGroups(db *gorm.DB) error {
 		{Name: "Group 3"},
 	}
 	return db.Create(&groups).Error
+}
+
+func seedUserGroups(db *gorm.DB) error {
+	userGroups := []models.UserGroup{
+		{UserID: 1, GroupID: 1},
+		{UserID: 2, GroupID: 1},
+		{UserID: 3, GroupID: 1},
+		{UserID: 1, GroupID: 2},
+		{UserID: 2, GroupID: 2},
+		{UserID: 1, GroupID: 3},
+	}
+	return db.Create(&userGroups).Error
 }
 
 func seedSessions(db *gorm.DB) error {
