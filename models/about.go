@@ -15,5 +15,5 @@ type About struct {
 	Notes       string    `json:"notes" gorm:"type:text"`
 	Address     string    `json:"address" gorm:"type:varchar(255)"`
 	Gender      string    `json:"gender" gorm:"type:varchar(255)"`
-	Age         time.Time `json:"age" gorm:"type:datetime"`
+	Age         time.Time `json:"age" gorm:"type:timestamp"`
 }
