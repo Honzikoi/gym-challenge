@@ -1,4 +1,3 @@
-// models/user_groups.go
 package models
 
 type UserGroup struct {

@@ -10,5 +10,5 @@ type Users struct {
 	Username string  `json:"username" gorm:"type:text;not null"`
 	Password string  `json:"password" gorm:"type:text;not null"`
 	About    About   `json:"about" gorm:"foreignKey:UserID"`
-	Groups   []Group `json:"groups" gorm:"many2many:user_group;"`
+	Groups   []Group `json:"groups" gorm:"many2many:user_groups;"`
 }

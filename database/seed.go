@@ -1,4 +1,3 @@
-// database/seed.go
 package database
 
 import (
@@ -41,9 +40,9 @@ func seedUsers(db *gorm.DB) error {
 
 func seedGroups(db *gorm.DB) error {
 	groups := []models.Group{
-		{Name: "Group 1"},
-		{Name: "Group 2"},
-		{Name: "Group 3"},
+		{Name: "Group 1", Description: "Description for Group 1", Status: "Active"},
+		{Name: "Group 2", Description: "Description for Group 2", Status: "Inactive"},
+		{Name: "Group 3", Description: "Description for Group 3", Status: "Pending"},
 	}
 	return db.Create(&groups).Error
 }
