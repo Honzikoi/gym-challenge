@@ -1,0 +1,40 @@
+name: Notify Discord on Push/Merge
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    types: [closed]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print debug information
+      run: |
+        echo "Event name: ${{ github.event_name }}"
+        echo "Branch: ${{ github.ref }}"
+        echo "Pull request merged: ${{ github.event.pull_request.merged }}"
+
+    - name: Send notification to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: |
+        if [ "${{ github.event.pull_request.merged }}" = "true" ]; then
+          response=$(curl -H "Content-Type: application/json" -X POST -d '{"content": "Pull request merged in repository: '${{ github.repository }}'"}' $DISCORD_WEBHOOK_URL)
+          echo "Response: $response"
+          if [ $? -ne 0 ]; then
+            echo "Curl command failed" >&2
+            exit 1
+          fi
+        else
+          response=$(curl -H "Content-Type: application/json" -X POST -d '{"content": "Push event in repository: '${{ github.repository }}' on branch: '${{ github.ref }}'"}' $DISCORD_WEBHOOK_URL)
+          echo "Response: $response"
+          if [ $? -ne 0 ]; then
+            echo "Curl command failed" >&2
+            exit 1
+          fi
+        fi
