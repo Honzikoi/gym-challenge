@@ -6,6 +6,8 @@ import (
 
 	"github.com/Honzikoi/gym-challenge/database"
 	"github.com/gofiber/fiber/v2"
+
+	_ "github.com/Honzikoi/gym-challenge/cmd/docs"
 )
 
 // @title           Swagger GoCoach-API

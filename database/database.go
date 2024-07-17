@@ -72,7 +72,7 @@ func ConnectDb() {
 		Db: db,
 	}
 
-	// // Get the standard database connection from GORM for the fixtures
+	// Get the standard database connection from GORM for the fixtures
 	// sqlDB, err := db.DB()
 	// if err != nil {
 	// 	log.Fatalf("Failed to get the standard database connection: %v", err)
