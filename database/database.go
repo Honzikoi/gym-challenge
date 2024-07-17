@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/Honzikoi/gym-challenge/models"
-	"github.com/go-testfixtures/testfixtures/v3"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -73,26 +72,26 @@ func ConnectDb() {
 		Db: db,
 	}
 
-	// Get the standard database connection from GORM for the fixtures
-	sqlDB, err := db.DB()
-	if err != nil {
-		log.Fatalf("Failed to get the standard database connection: %v", err)
-	}
+	// // Get the standard database connection from GORM for the fixtures
+	// sqlDB, err := db.DB()
+	// if err != nil {
+	// 	log.Fatalf("Failed to get the standard database connection: %v", err)
+	// }
 
-	fixtures, err := testfixtures.New(
-		testfixtures.DangerousSkipTestDatabaseCheck(),
-		testfixtures.Database(sqlDB),       // The database connection
-		testfixtures.Dialect("postgres"),   // The dialect of the database you're using
-		testfixtures.Directory("fixtures"), // The directory containing the fixture files
-	)
-	if err != nil {
-		log.Fatalf("Could not initialize testfixtures: %v", err)
-	}
+	// fixtures, err := testfixtures.New(
+	// 	testfixtures.DangerousSkipTestDatabaseCheck(),
+	// 	testfixtures.Database(sqlDB),       // The database connection
+	// 	testfixtures.Dialect("postgres"),   // The dialect of the database you're using
+	// 	testfixtures.Directory("fixtures"), // The directory containing the fixture files
+	// )
+	// if err != nil {
+	// 	log.Fatalf("Could not initialize testfixtures: %v", err)
+	// }
 
-	// Load the fixtures into the database
-	if err := fixtures.Load(); err != nil {
-		log.Fatalf("Could not load fixtures: %v", err)
-	}
+	// // Load the fixtures into the database
+	// if err := fixtures.Load(); err != nil {
+	// 	log.Fatalf("Could not load fixtures: %v", err)
+	// }
 
-	log.Println("Fixtures loaded successfully!")
+	// log.Println("Fixtures loaded successfully!")
 }
