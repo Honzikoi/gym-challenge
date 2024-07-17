@@ -80,7 +80,7 @@ func ConnectDb() {
 	}
 
 	fixtures, err := testfixtures.New(
-		testfixtures.DangerousSkipCleanupFixtureTables(),
+		testfixtures.DangerousSkipTestDatabaseCheck(),
 		testfixtures.Database(sqlDB),       // The database connection
 		testfixtures.Dialect("postgres"),   // The dialect of the database you're using
 		testfixtures.Directory("fixtures"), // The directory containing the fixture files
