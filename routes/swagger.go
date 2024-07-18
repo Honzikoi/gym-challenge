@@ -6,8 +6,7 @@ import (
 )
 
 func SwaggerRoutes(app *fiber.App) {
-	app.Get("/swagger/*", swagger.HandlerDefault)
-
+	// app.Get("/swagger/*", swagger.HandlerDefault)
 	app.Get("/swagger/*", swagger.New(swagger.Config{ // custom
 		URL:         "https://go-gym-challenge-2c47afc55a78.herokuapp.com/swagger/doc.json",
 		DeepLinking: false,
