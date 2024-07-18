@@ -21,7 +21,4 @@ func SwaggerRoutes(app *fiber.App) {
 	// 	OAuth2RedirectUrl: "http://localhost:3000/swagger/oauth2-redirect.html",
 	// }))
 
-	// Serve Swagger JSON
-	app.Static("/swagger/doc.json", "./docs/swagger.json")
-
 }

@@ -8,13 +8,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// GetAbouts Get all the users' Abouts
-// @Summary Retrieve all abouts
-// @Description Get all abouts
-// @Tags abouts
-// @Produce json
-// @Success 200 {array} models.About
-// @Router /abouts [get]
+// Show Abouts godoc
+//
+//	@Summary		Show all the Abouts
+//	@Description	Get all the Abouts from the Database
+//	@Tags			abouts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"About"
+//	@Success		200	{object}	models.About
+//	@Failure		400	{object}	fiber.Map
+//	@Failure		404	{object}	fiber.Map
+//	@Failure		500	{object}	fiber.Map
+//	@Router			/abouts/ [get]
 func GetAbouts(c *fiber.Ctx) error {
 	var abouts []models.About
 	database.DB.Db.Find(&abouts)
@@ -22,15 +28,16 @@ func GetAbouts(c *fiber.Ctx) error {
 }
 
 // CreateAbout godoc
-// @Summary Create a new about
-// @Description Create a new about
-// @Tags abouts
-// @Accept json
-// @Produce json
-// @Param about body models.About true "About"
-// @Success 201 {object} models.About
-// @Failure 400 {object} fiber.Map
-// @Router /abouts [post]
+//
+//	@Summary		Create a new about
+//	@Description	Create a new about
+//	@Tags			abouts
+//	@Accept			json
+//	@Produce		json
+//	@Param			about	body		models.About	true	"About"
+//	@Success		201		{object}	models.About
+//	@Failure		400		{object}	fiber.Map
+//	@Router			/abouts [post]
 func CreateAbout(c *fiber.Ctx) error {
 	about := new(models.About)
 	if err := c.BodyParser(about); err != nil {
@@ -41,15 +48,16 @@ func CreateAbout(c *fiber.Ctx) error {
 }
 
 // GetAbout godoc
-// @Summary Retrieve an about by ID
-// @Description Get an about by ID
-// @Tags abouts
-// @Produce json
-// @Param id path int true "About ID"
-// @Success 200 {object} models.About
-// @Failure 400 {object} fiber.Map
-// @Failure 404 {object} fiber.Map
-// @Router /abouts/{id} [get]
+//
+//	@Summary		Retrieve an about by ID
+//	@Description	Get an about by ID
+//	@Tags			abouts
+//	@Produce		json
+//	@Param			id	path		int	true	"About ID"
+//	@Success		200	{object}	models.About
+//	@Failure		400	{object}	fiber.Map
+//	@Failure		404	{object}	fiber.Map
+//	@Router			/abouts/{id} [get]
 func GetAbout(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -65,17 +73,18 @@ func GetAbout(c *fiber.Ctx) error {
 }
 
 // UpdateAbout godoc
-// @Summary Update an about by ID
-// @Description Update an about by ID
-// @Tags abouts
-// @Accept json
-// @Produce json
-// @Param id path int true "About ID"
-// @Param about body models.About true "About"
-// @Success 200 {object} models.About
-// @Failure 400 {object} fiber.Map
-// @Failure 404 {object} fiber.Map
-// @Router /abouts/{id} [put]
+//
+//	@Summary		Update an about by ID
+//	@Description	Update an about by ID
+//	@Tags			abouts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int				true	"About ID"
+//	@Param			about	body		models.About	true	"About"
+//	@Success		200		{object}	models.About
+//	@Failure		400		{object}	fiber.Map
+//	@Failure		404		{object}	fiber.Map
+//	@Router			/abouts/{id} [put]
 func UpdateAbout(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
@@ -97,14 +106,15 @@ func UpdateAbout(c *fiber.Ctx) error {
 }
 
 // DeleteAbout godoc
-// @Summary Delete an about by ID
-// @Description Delete an about by ID
-// @Tags abouts
-// @Param id path int true "About ID"
-// @Success 204
-// @Failure 400 {object} fiber.Map
-// @Failure 404 {object} fiber.Map
-// @Router /abouts/{id} [delete]
+//
+//	@Summary		Delete an about by ID
+//	@Description	Delete an about by ID
+//	@Tags			abouts
+//	@Param			id	path	int	true	"About ID"
+//	@Success		204
+//	@Failure		400	{object}	fiber.Map
+//	@Failure		404	{object}	fiber.Map
+//	@Router			/abouts/{id} [delete]
 func DeleteAbout(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {

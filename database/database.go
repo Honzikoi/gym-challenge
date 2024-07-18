@@ -68,6 +68,19 @@ func ConnectDb() {
 		os.Exit(2)
 	}
 
+	// Insert predefined roles
+	predefinedRoles := []models.Role{
+		{Name: "user", Description: "Regular user", Permissions: "view, purchase"},
+		{Name: "coach", Description: "Coach with special permissions", Permissions: "view, purchase, create_workout, manage_clients"},
+		{Name: "admin", Description: "Admin with full permissions", Permissions: "view, purchase, create_workout, manage_clients, manage_users"},
+	}
+
+	for _, role := range predefinedRoles {
+		if err := db.FirstOrCreate(&role, models.Role{Name: role.Name}).Error; err != nil {
+			log.Fatalf("Failed to insert role %s: %v\n", role.Name, err)
+		}
+	}
+
 	DB = Dbinstance{
 		Db: db,
 	}

@@ -4,22 +4,10 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/Honzikoi/gym-challenge/cmd/docs"
 	"github.com/Honzikoi/gym-challenge/database"
+	_ "github.com/Honzikoi/gym-challenge/docs"
 	"github.com/gofiber/fiber/v2"
 )
-
-// @title           Swagger GoCoach-API
-// @version         1.0
-// @description     This is a sample server celler server.
-
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-
-// @host      localhost:3000
-// @BasePath  /
-
-// @externalDocs.description  OpenAPI
-// @externalDocs.url          https://swagger.io/resources/open-api/
 
 func main() {
 	database.ConnectDb()

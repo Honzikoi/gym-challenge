@@ -5,7 +5,6 @@ go 1.22.1
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/gofiber/jwt/v3 v3.3.10
-	github.com/gofiber/swagger v1.1.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gorilla/sessions v1.3.0
 	github.com/joho/godotenv v1.5.1
@@ -22,10 +21,12 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
 	github.com/go-openapi/spec v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
+	github.com/gofiber/swagger v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/context v1.1.1 // indirect

@@ -11,6 +11,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login godoc
+//	@Summary		Log in a user
+//	@Description	Authenticate a user with email and password
+//	@Tags			Signup & Login
+//	@Accept			json
+//	@Produce		json
+//	@Param			login	body		LoginRequest	true	"Login request"
+//	@Success		200		{string}	JWT				token
+//	@Failure		400		{string}	Invalid			request	payload
+//	@Failure		401		{string}	Invalid			email	or			password
+//	@Failure		500		{string}	Failed			to		generate	token
+//	@Router			/login [post]
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

@@ -1,22 +1,590 @@
-basePath: /api/v1
-externalDocs:
-  description: OpenAPI
-  url: https://swagger.io/resources/open-api/
+basePath: /
+definitions:
+  fiber.Map:
+    additionalProperties: true
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  handlers.SignUpRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.About:
+    properties:
+      address:
+        type: string
+      age:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      notes:
+        type: string
+      surname:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.Equipment:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      purpose:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Gym:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      equipment:
+        items:
+          $ref: '#/definitions/models.Equipment'
+        type: array
+      id:
+        type: integer
+      location:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Sessions:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      group_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+      workouts:
+        items:
+          $ref: '#/definitions/models.Workout'
+        type: array
+    type: object
+  models.Workout:
+    properties:
+      comments:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      durationInMinutes:
+        type: integer
+      hasFreeTrial:
+        type: boolean
+      id:
+        type: integer
+      imagePath:
+        type: string
+      isWorkoutOfDay:
+        type: boolean
+      movesNumber:
+        type: integer
+      priceInDollars:
+        type: number
+      rating:
+        type: integer
+      reviews:
+        type: string
+      sessionID:
+        type: integer
+      setsNumber:
+        type: integer
+      timeLeftInHour:
+        type: integer
+      updatedAt:
+        type: string
+      workOutTitle:
+        type: string
+    type: object
 host: localhost:3000
 info:
   contact:
-    email: support@swagger.io
+    email: fiber@swagger.io
     name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server celler server.
+  description: Gym API for users.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger GoCoach-API
+  title: Gym API
   version: "1.0"
-paths: {}
-securityDefinitions:
-  BasicAuth:
-    type: basic
+paths:
+  /abouts:
+    post:
+      consumes:
+      - application/json
+      description: Create a new about
+      parameters:
+      - description: About
+        in: body
+        name: about
+        required: true
+        schema:
+          $ref: '#/definitions/models.About'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.About'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Create a new about
+      tags:
+      - abouts
+  /abouts/:
+    get:
+      consumes:
+      - application/json
+      description: Get all the Abouts from the Database
+      parameters:
+      - description: About
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.About'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Show all the Abouts
+      tags:
+      - abouts
+  /abouts/{id}:
+    delete:
+      description: Delete an about by ID
+      parameters:
+      - description: About ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Delete an about by ID
+      tags:
+      - abouts
+    get:
+      description: Get an about by ID
+      parameters:
+      - description: About ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.About'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Retrieve an about by ID
+      tags:
+      - abouts
+    put:
+      consumes:
+      - application/json
+      description: Update an about by ID
+      parameters:
+      - description: About ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: About
+        in: body
+        name: about
+        required: true
+        schema:
+          $ref: '#/definitions/models.About'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.About'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Update an about by ID
+      tags:
+      - abouts
+  /gyms:
+    get:
+      description: Get a list of all gyms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Gym'
+            type: array
+      summary: Get all gyms
+      tags:
+      - gyms
+    post:
+      consumes:
+      - application/json
+      description: Create a new gym with name and location
+      parameters:
+      - description: Gym
+        in: body
+        name: gym
+        required: true
+        schema:
+          $ref: '#/definitions/models.Gym'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Gym'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new gym
+      tags:
+      - gyms
+  /gyms/{id}:
+    delete:
+      description: Delete a gym by its ID
+      parameters:
+      - description: Gym ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Successfully deleted
+          schema:
+            type: string
+        "400":
+          description: Invalid gym ID
+          schema:
+            type: string
+        "404":
+          description: Gym not found
+          schema:
+            type: string
+      summary: Delete a gym by ID
+      tags:
+      - gyms
+    get:
+      description: Get a gym by its ID
+      parameters:
+      - description: Gym ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Gym'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get a gym by ID
+      tags:
+      - gyms
+    put:
+      consumes:
+      - application/json
+      description: Update a gym's details by its ID
+      parameters:
+      - description: Gym ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Gym
+        in: body
+        name: gym
+        required: true
+        schema:
+          $ref: '#/definitions/models.Gym'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Gym'
+        "400":
+          description: Invalid gym ID
+          schema:
+            type: string
+        "404":
+          description: Gym not found
+          schema:
+            type: string
+      summary: Update a gym by ID
+      tags:
+      - gyms
+  /logout:
+    post:
+      description: Invalidate the user's session or token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Log out a user
+      tags:
+      - Signup & Login
+  /sessions:
+    get:
+      description: Get all sessions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Sessions'
+            type: array
+      summary: Retrieve all sessions
+      tags:
+      - sessions
+    post:
+      consumes:
+      - application/json
+      description: Create a new session
+      parameters:
+      - description: Session
+        in: body
+        name: session
+        required: true
+        schema:
+          $ref: '#/definitions/models.Sessions'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Sessions'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Create a new session
+      tags:
+      - sessions
+  /sessions/{id}:
+    delete:
+      description: Delete a session by ID
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Delete a session by ID
+      tags:
+      - sessions
+    get:
+      description: Get a session by ID
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Sessions'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Retrieve a session by ID
+      tags:
+      - sessions
+    put:
+      consumes:
+      - application/json
+      description: Update a session by ID
+      parameters:
+      - description: Session ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Session
+        in: body
+        name: session
+        required: true
+        schema:
+          $ref: '#/definitions/models.Sessions'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Sessions'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Update a session by ID
+      tags:
+      - sessions
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with email and password
+      parameters:
+      - description: Sign up request
+        in: body
+        name: signup
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Sign up a new user
+      tags:
+      - Signup & Login
 swagger: "2.0"

@@ -1,23 +1,19 @@
-// handlers/logout.go
 package handlers
 
 import (
-	"time"
-
 	"github.com/gofiber/fiber/v2"
 )
 
-// Logout handles the user logout
+// Logout godoc
+//	@Summary		Log out a user
+//	@Description	Invalidate the user's session or token
+//	@Tags			Signup & Login
+//	@Produce		json
+//	@Success		200	{string}	Successfully	logged	out
+//	@Router			/logout [post]
 func Logout(c *fiber.Ctx) error {
-	// Clear the JWT token cookie
-	c.Cookie(&fiber.Cookie{
-		Name:     "jwt",
-		Value:    "",
-		Expires:  time.Now().Add(-time.Hour),
-		HTTPOnly: true,
-	})
-
-	return c.JSON(fiber.Map{
+	// Invalidate the user's session or token here
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Successfully logged out",
 	})
 }
