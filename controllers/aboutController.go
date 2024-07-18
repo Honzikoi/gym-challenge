@@ -14,7 +14,6 @@ import (
 //	@Description	Get all the Abouts from the Database
 //	@Tags			abouts
 //	@Accept			json
-//	@Produce		json
 //	@Param			id	path		int	true	"About"
 //	@Success		200	{object}	models.About
 //	@Failure		400	{object}	fiber.Map
@@ -51,7 +50,7 @@ func CreateAbout(c *fiber.Ctx) error {
 //
 //	@Summary		Retrieve an about by ID
 //	@Description	Get an about by ID
-//	@Tags			abouts
+//	@Tags			About
 //	@Produce		json
 //	@Param			id	path		int	true	"About ID"
 //	@Success		200	{object}	models.About

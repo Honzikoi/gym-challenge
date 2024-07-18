@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/Honzikoi/gym-challenge/database"
 	"github.com/Honzikoi/gym-challenge/models"
@@ -9,46 +10,60 @@ import (
 )
 
 // GetSessions godoc
-//	@Summary		Retrieve all sessions
-//	@Description	Get all sessions
-//	@Tags			sessions
+//
+//	@Summary		Get all sessions
+//	@Description	Retrieve all sessions
+//	@Tags			Sessions
 //	@Produce		json
-//	@Success		200	{array}	models.Sessions
+//	@Success		200	{array}		models.Sessions
+//	@Failure		500	{string}	Internal Server Error
 //	@Router			/sessions [get]
 func GetSessions(c *fiber.Ctx) error {
 	var sessions []models.Sessions
-	database.DB.Db.Find(&sessions)
+	if err := database.DB.Db.Find(&sessions).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
 	return c.Status(fiber.StatusOK).JSON(sessions)
 }
 
 // CreateSession godoc
+//
 //	@Summary		Create a new session
 //	@Description	Create a new session
-//	@Tags			sessions
+//	@Tags			Sessions
 //	@Accept			json
 //	@Produce		json
 //	@Param			session	body		models.Sessions	true	"Session"
-//	@Success		201		{object}	models.Sessions
-//	@Failure		400		{object}	fiber.Map
+//	@Success		201	{object}	models.Sessions
+//	@Failure		400	{string}	Cannot parse JSON
 //	@Router			/sessions [post]
 func CreateSession(c *fiber.Ctx) error {
-	session := new(models.Sessions)
-	if err := c.BodyParser(session); err != nil {
+	sessions := new(models.Sessions)
+	if err := c.BodyParser(sessions); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
-	database.DB.Db.Create(&session)
-	return c.Status(fiber.StatusCreated).JSON(session)
+
+	// Parse the date field
+	if sessions.Date.IsZero() {
+		sessions.Date = time.Now() // set current time if not provided
+	}
+
+	if err := database.DB.Db.Create(&sessions).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
+	return c.Status(fiber.StatusCreated).JSON(sessions)
 }
 
 // GetSession godoc
-//	@Summary		Retrieve a session by ID
-//	@Description	Get a session by ID
-//	@Tags			sessions
+//
+//	@Summary		Get a session by ID
+//	@Description	Retrieve a session by ID
+//	@Tags			Sessions
 //	@Produce		json
 //	@Param			id	path		int	true	"Session ID"
 //	@Success		200	{object}	models.Sessions
-//	@Failure		400	{object}	fiber.Map
-//	@Failure		404	{object}	fiber.Map
+//	@Failure		400	{string}	Invalid session ID
+//	@Failure		404	{string}	Session not found
 //	@Router			/sessions/{id} [get]
 func GetSession(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
@@ -65,16 +80,17 @@ func GetSession(c *fiber.Ctx) error {
 }
 
 // UpdateSession godoc
+//
 //	@Summary		Update a session by ID
-//	@Description	Update a session by ID
-//	@Tags			sessions
+//	@Description	Update a session's details by ID
+//	@Tags			Sessions
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int				true	"Session ID"
-//	@Param			session	body		models.Sessions	true	"Session"
-//	@Success		200		{object}	models.Sessions
-//	@Failure		400		{object}	fiber.Map
-//	@Failure		404		{object}	fiber.Map
+//	@Param			id		path	int				true	"Session ID"
+//	@Param			session	body	models.Sessions	true	"Session"
+//	@Success		200	{object}	models.Sessions
+//	@Failure		400	{string}	Invalid session ID
+//	@Failure		404	{string}	Session not found
 //	@Router			/sessions/{id} [put]
 func UpdateSession(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
@@ -92,18 +108,21 @@ func UpdateSession(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
-	database.DB.Db.Save(&session)
+	if err := database.DB.Db.Save(&session).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
 	return c.Status(fiber.StatusOK).JSON(session)
 }
 
 // DeleteSession godoc
+//
 //	@Summary		Delete a session by ID
 //	@Description	Delete a session by ID
-//	@Tags			sessions
+//	@Tags			Sessions
 //	@Param			id	path	int	true	"Session ID"
-//	@Success		204
-//	@Failure		400	{object}	fiber.Map
-//	@Failure		404	{object}	fiber.Map
+//	@Success		204	{string}	Successfully deleted
+//	@Failure		400	{string}	Invalid session ID
+//	@Failure		404	{string}	Session not found
 //	@Router			/sessions/{id} [delete]
 func DeleteSession(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))

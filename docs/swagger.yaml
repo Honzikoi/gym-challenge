@@ -60,6 +60,27 @@ definitions:
       updatedAt:
         type: string
     type: object
+  models.Group:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.Users'
+        type: array
+    type: object
   models.Gym:
     properties:
       createdAt:
@@ -83,62 +104,59 @@ definitions:
     properties:
       createdAt:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
-      group_id:
-        type: integer
-      id:
-        type: integer
-      name:
-        type: string
-      type:
-        type: string
-      updatedAt:
-        type: string
-      user_id:
-        type: string
-      workouts:
-        items:
-          $ref: '#/definitions/models.Workout'
-        type: array
-    type: object
-  models.Workout:
-    properties:
-      comments:
-        type: string
-      createdAt:
+      date:
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
       description:
         type: string
       durationInMinutes:
-        type: integer
-      hasFreeTrial:
-        type: boolean
+        type: string
+      exerciseType:
+        type: string
       id:
         type: integer
-      imagePath:
-        type: string
       isWorkoutOfDay:
         type: boolean
+      localisation:
+        type: string
       movesNumber:
-        type: integer
-      priceInDollars:
-        type: number
+        type: string
       rating:
-        type: integer
+        type: string
       reviews:
         type: string
-      sessionID:
-        type: integer
       setsNumber:
-        type: integer
+        type: string
       timeLeftInHour:
-        type: integer
+        type: string
       updatedAt:
         type: string
       workOutTitle:
+        type: string
+    type: object
+  models.Users:
+    properties:
+      about:
+        $ref: '#/definitions/models.About'
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      groups:
+        description: RoleID   uint    `json:role_id gorm:"default:1"`
+        items:
+          $ref: '#/definitions/models.Group'
+        type: array
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
         type: string
     type: object
 host: localhost:3000
@@ -191,8 +209,6 @@ paths:
         name: id
         required: true
         type: integer
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
@@ -261,7 +277,7 @@ paths:
             $ref: '#/definitions/fiber.Map'
       summary: Retrieve an about by ID
       tags:
-      - abouts
+      - About
     put:
       consumes:
       - application/json
@@ -310,7 +326,7 @@ paths:
             type: array
       summary: Get all gyms
       tags:
-      - gyms
+      - Gyms
     post:
       consumes:
       - application/json
@@ -332,10 +348,10 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/fiber.Map'
       summary: Create a new gym
       tags:
-      - gyms
+      - Gyms
   /gyms/{id}:
     delete:
       description: Delete a gym by its ID
@@ -351,16 +367,16 @@ paths:
           schema:
             type: string
         "400":
-          description: Invalid gym ID
+          description: Bad Request
           schema:
             type: string
         "404":
-          description: Gym not found
+          description: Not Found
           schema:
             type: string
       summary: Delete a gym by ID
       tags:
-      - gyms
+      - Gyms
     get:
       description: Get a gym by its ID
       parameters:
@@ -379,14 +395,14 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            $ref: '#/definitions/fiber.Map'
         "404":
           description: Not Found
           schema:
-            type: string
+            $ref: '#/definitions/fiber.Map'
       summary: Get a gym by ID
       tags:
-      - gyms
+      - Gyms
     put:
       consumes:
       - application/json
@@ -411,16 +427,16 @@ paths:
           schema:
             $ref: '#/definitions/models.Gym'
         "400":
-          description: Invalid gym ID
+          description: Bad Request
           schema:
             type: string
         "404":
-          description: Gym not found
+          description: Not Found
           schema:
             type: string
       summary: Update a gym by ID
       tags:
-      - gyms
+      - Gyms
   /logout:
     post:
       description: Invalidate the user's session or token
@@ -436,7 +452,7 @@ paths:
       - Signup & Login
   /sessions:
     get:
-      description: Get all sessions
+      description: Retrieve all sessions
       produces:
       - application/json
       responses:
@@ -446,9 +462,13 @@ paths:
             items:
               $ref: '#/definitions/models.Sessions'
             type: array
-      summary: Retrieve all sessions
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all sessions
       tags:
-      - sessions
+      - Sessions
     post:
       consumes:
       - application/json
@@ -470,10 +490,10 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
       summary: Create a new session
       tags:
-      - sessions
+      - Sessions
   /sessions/{id}:
     delete:
       description: Delete a session by ID
@@ -486,19 +506,21 @@ paths:
       responses:
         "204":
           description: No Content
+          schema:
+            type: string
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
       summary: Delete a session by ID
       tags:
-      - sessions
+      - Sessions
     get:
-      description: Get a session by ID
+      description: Retrieve a session by ID
       parameters:
       - description: Session ID
         in: path
@@ -515,18 +537,18 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fiber.Map'
-      summary: Retrieve a session by ID
+            type: string
+      summary: Get a session by ID
       tags:
-      - sessions
+      - Sessions
     put:
       consumes:
       - application/json
-      description: Update a session by ID
+      description: Update a session's details by ID
       parameters:
       - description: Session ID
         in: path
@@ -549,14 +571,14 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/fiber.Map'
+            type: string
       summary: Update a session by ID
       tags:
-      - sessions
+      - Sessions
   /signup:
     post:
       consumes:
@@ -587,4 +609,133 @@ paths:
       summary: Sign up a new user
       tags:
       - Signup & Login
+  /users:
+    get:
+      description: Retrieve all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Users'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      description: Delete a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Delete a user by ID
+      tags:
+      - Users
+    get:
+      description: Retrieve a user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get a user by ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update a user's details by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Update a user by ID
+      tags:
+      - Users
 swagger: "2.0"

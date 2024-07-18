@@ -69,9 +69,6 @@ const docTemplate = `{
                 "consumes": [
                     "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "abouts"
                 ],
@@ -120,7 +117,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "abouts"
+                    "About"
                 ],
                 "summary": "Retrieve an about by ID",
                 "parameters": [
@@ -245,7 +242,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gyms"
+                    "Gyms"
                 ],
                 "summary": "Get all gyms",
                 "responses": {
@@ -269,7 +266,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gyms"
+                    "Gyms"
                 ],
                 "summary": "Create a new gym",
                 "parameters": [
@@ -293,7 +290,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/fiber.Map"
                         }
                     }
                 }
@@ -306,7 +303,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gyms"
+                    "Gyms"
                 ],
                 "summary": "Get a gym by ID",
                 "parameters": [
@@ -328,13 +325,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/fiber.Map"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/fiber.Map"
                         }
                     }
                 }
@@ -348,7 +345,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gyms"
+                    "Gyms"
                 ],
                 "summary": "Update a gym by ID",
                 "parameters": [
@@ -377,13 +374,13 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid gym ID",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "404": {
-                        "description": "Gym not found",
+                        "description": "Not Found",
                         "schema": {
                             "type": "string"
                         }
@@ -393,7 +390,7 @@ const docTemplate = `{
             "delete": {
                 "description": "Delete a gym by its ID",
                 "tags": [
-                    "gyms"
+                    "Gyms"
                 ],
                 "summary": "Delete a gym by ID",
                 "parameters": [
@@ -413,13 +410,13 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid gym ID",
+                        "description": "Bad Request",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "404": {
-                        "description": "Gym not found",
+                        "description": "Not Found",
                         "schema": {
                             "type": "string"
                         }
@@ -449,14 +446,14 @@ const docTemplate = `{
         },
         "/sessions": {
             "get": {
-                "description": "Get all sessions",
+                "description": "Retrieve all sessions",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "sessions"
+                    "Sessions"
                 ],
-                "summary": "Retrieve all sessions",
+                "summary": "Get all sessions",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -465,6 +462,12 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.Sessions"
                             }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -478,7 +481,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sessions"
+                    "Sessions"
                 ],
                 "summary": "Create a new session",
                 "parameters": [
@@ -502,7 +505,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     }
                 }
@@ -510,14 +513,14 @@ const docTemplate = `{
         },
         "/sessions/{id}": {
             "get": {
-                "description": "Get a session by ID",
+                "description": "Retrieve a session by ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "sessions"
+                    "Sessions"
                 ],
-                "summary": "Retrieve a session by ID",
+                "summary": "Get a session by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -537,19 +540,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     }
                 }
             },
             "put": {
-                "description": "Update a session by ID",
+                "description": "Update a session's details by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -557,7 +560,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sessions"
+                    "Sessions"
                 ],
                 "summary": "Update a session by ID",
                 "parameters": [
@@ -588,13 +591,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     }
                 }
@@ -602,7 +605,7 @@ const docTemplate = `{
             "delete": {
                 "description": "Delete a session by ID",
                 "tags": [
-                    "sessions"
+                    "Sessions"
                 ],
                 "summary": "Delete a session by ID",
                 "parameters": [
@@ -616,18 +619,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content"
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/fiber.Map"
+                            "type": "string"
                         }
                     }
                 }
@@ -672,6 +678,201 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Retrieve all users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Users"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "Retrieve a user by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a user by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a user's details by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a user by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Users"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a user by ID",
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "string"
                         }
@@ -772,6 +973,38 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Group": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Users"
+                    }
+                }
+            }
+        },
         "models.Gym": {
             "type": "object",
             "properties": {
@@ -807,42 +1040,7 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "group_id": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                },
-                "workouts": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Workout"
-                    }
-                }
-            }
-        },
-        "models.Workout": {
-            "type": "object",
-            "properties": {
-                "comments": {
-                    "type": "string"
-                },
-                "createdAt": {
+                "date": {
                     "type": "string"
                 },
                 "deletedAt": {
@@ -852,45 +1050,75 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "durationInMinutes": {
-                    "type": "integer"
+                    "type": "string"
                 },
-                "hasFreeTrial": {
-                    "type": "boolean"
+                "exerciseType": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "imagePath": {
-                    "type": "string"
-                },
                 "isWorkoutOfDay": {
                     "type": "boolean"
                 },
-                "movesNumber": {
-                    "type": "integer"
+                "localisation": {
+                    "type": "string"
                 },
-                "priceInDollars": {
-                    "type": "number"
+                "movesNumber": {
+                    "type": "string"
                 },
                 "rating": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "reviews": {
                     "type": "string"
                 },
-                "sessionID": {
-                    "type": "integer"
-                },
                 "setsNumber": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "timeLeftInHour": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "updatedAt": {
                     "type": "string"
                 },
                 "workOutTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Users": {
+            "type": "object",
+            "properties": {
+                "about": {
+                    "$ref": "#/definitions/models.About"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "groups": {
+                    "description": "RoleID   uint    ` + "`" + `json:role_id gorm:\"default:1\"` + "`" + `",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Group"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

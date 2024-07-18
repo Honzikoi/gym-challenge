@@ -1,14 +1,23 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
 type Sessions struct {
 	gorm.Model
-	Name        string    `json:"name" gorm:"text;not null;default:null"`
-	Description string    `json:"user_id" gorm:"text;not null"`
-	Group_id    int       `json:"group_id" gorm:"int;not null"`
-	Workouts    []Workout `json:"workouts" gorm:"foreignKey:SessionID"`
-	Type        string    `json:"type" gorm:"text"`
+	WorkOutTitle      string    `json:"workOutTitle" gorm:"not null"`
+	TimeLeftInHour    string    `json:"timeLeftInHour"`
+	MovesNumber       string    `json:"movesNumber"`
+	SetsNumber        string    `json:"setsNumber"`
+	DurationInMinutes string    `json:"durationInMinutes"`
+	Description       string    `json:"description"`
+	Date              time.Time `json:"date"`
+	Localisation      string    `json:"localisation"`
+	ExerciseType      string    `json:"exerciseType"`
+	Reviews           string    `json:"reviews"`
+	Rating            string    `json:"rating"`
+	IsWorkoutOfDay    bool      `json:"isWorkoutOfDay"`
 }

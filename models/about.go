@@ -8,7 +8,7 @@ import (
 
 type About struct {
 	gorm.Model
-	UserID      uint      `json:"user_id"`
+	AboutID     uint      `json:"about_id"`
 	Name        string    `json:"name" gorm:"type:varchar(255)"`
 	Surname     string    `json:"surname" gorm:"type:varchar(255)"`
 	Description string    `json:"description" gorm:"type:text"`

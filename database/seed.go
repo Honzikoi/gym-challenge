@@ -18,9 +18,9 @@ func Seed(db *gorm.DB) {
 		if err := seedUserGroups(tx); err != nil {
 			return err
 		}
-		if err := seedSessions(tx); err != nil {
-			return err
-		}
+		// if err := seedSessions(tx); err != nil {
+		// 	return err
+		// }
 		return nil
 	})
 
@@ -59,11 +59,11 @@ func seedUserGroups(db *gorm.DB) error {
 	return db.Create(&userGroups).Error
 }
 
-func seedSessions(db *gorm.DB) error {
-	sessions := []models.Sessions{
-		{Model: gorm.Model{ID: 1}, Name: "Morning Session", Description: "Start your day with a burst of energy", Group_id: 1, Type: "Yoga"},
-		{Model: gorm.Model{ID: 2}, Name: "Afternoon Session", Description: "Keep your momentum going", Group_id: 2, Type: "Muscu"},
-		{Model: gorm.Model{ID: 3}, Name: "Evening Session", Description: "Wind down and relax", Group_id: 3, Type: "Cardio"},
-	}
-	return db.Create(&sessions).Error
-}
+// func seedSessions(db *gorm.DB) error {
+// 	sessions := []models.Sessions{
+// 		{Model: gorm.Model{ID: 1}, Name: "Morning Session", Description: "Start your day with a burst of energy", Group_id: 1, Type: "Yoga"},
+// 		{Model: gorm.Model{ID: 2}, Name: "Afternoon Session", Description: "Keep your momentum going", Group_id: 2, Type: "Muscu"},
+// 		{Model: gorm.Model{ID: 3}, Name: "Evening Session", Description: "Wind down and relax", Group_id: 3, Type: "Cardio"},
+// 	}
+// 	return db.Create(&sessions).Error
+// }

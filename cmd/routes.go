@@ -26,6 +26,7 @@ func setupRoutes(app *fiber.App) {
 	routes.ConnectionRoutes(app)
 	routes.GymRoutes(app)
 	routes.GroupRoutes(app)
+	routes.UserRoutes(app)
 	routes.WorkoutRoutes(app)
 	routes.SwaggerRoutes(app)
 	routes.ConnectionRoutes(app)
