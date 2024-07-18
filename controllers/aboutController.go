@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// GetAbouts godoc
+// GetAbouts Get all the users' Abouts
 // @Summary Retrieve all abouts
 // @Description Get all abouts
 // @Tags abouts
