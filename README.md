@@ -1,4 +1,4 @@
-# Challenge 2 Flutter & Go
+# Challenge 2 Flutter & Go by Zak, Sassan and Vu Quang Anh
 
 ## Work in Progress
 
