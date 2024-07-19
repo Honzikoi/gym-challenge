@@ -80,7 +80,68 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := database.DB.Db.Create(&users).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 	}
-	return c.Status(fiber.StatusCreated).JSON(users)
+
+	// Retrieve the user with preloaded Role
+	var user models.Users
+	if err := database.DB.Db.Preload("Role").First(&user, users.ID).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to retrieve user with role"})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(user)
+}
+
+// CreateCoach godoc
+//
+//	@Summary		Create a new coach
+//	@Description	Create a new coach with role ID 2
+//	@Tags			Coaches
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		models.Users	true	"Coach"
+//	@Success		201	{object}	models.Users
+//	@Failure		400	{string}	Cannot parse JSON
+//	@Failure		400	{string}	Invalid email address
+//	@Failure		400	{string}	User already exists
+//	@Failure		500	{string}	Internal Server Error
+//	@Router			/coaches [post]
+func CreateCoach(c *fiber.Ctx) error {
+	users := new(models.Users)
+	if err := c.BodyParser(users); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+	}
+
+	// Validate email format
+	if !isEmailValid(users.Email) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid email address"})
+	}
+
+	// Check if user already exists
+	var existingUser models.Users
+	if err := database.DB.Db.Where("email = ?", users.Email).First(&existingUser).Error; err == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "User already exists"})
+	}
+
+	// Hash the password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(users.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to hash password"})
+	}
+	users.Password = string(hashedPassword)
+
+	// Ensure the RoleID is set to 2 for coaches
+	users.RoleID = 2
+
+	if err := database.DB.Db.Create(&users).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
+
+	// Retrieve the coach with preloaded Role
+	var user models.Users
+	if err := database.DB.Db.Preload("Role").First(&user, users.ID).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to retrieve user with role"})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(user)
 }
 
 // GetUser godoc
@@ -118,8 +179,8 @@ func GetUser(c *fiber.Ctx) error {
 //	@Param			id		path	int			true	"User ID"
 //	@Param			user	body	models.Users	true	"User"
 //	@Success		200	{object}	models.Users
-//	@Failure		400	{string}	"Invalid user ID"
-//	@Failure		404	{string}	"User not found"
+//	@Failure		400	{string}	Invalid user ID
+//	@Failure		404	{string}	User not found
 //	@Router			/users/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
@@ -149,9 +210,9 @@ func UpdateUser(c *fiber.Ctx) error {
 //	@Description	Delete a user by ID
 //	@Tags			Users
 //	@Param			id	path	int	true	"User ID"
-//	@Success		204	{string}	"Successfully deleted"
-//	@Failure		400	{string}	"Invalid user ID"
-//	@Failure		404	{string}	"User not found"
+//	@Success		204	{string}	Successfully deleted
+//	@Failure		400	{string}	Invalid user ID
+//	@Failure		404	{string}	User not found
 //	@Router			/users/{id} [delete]
 func DeleteUser(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))

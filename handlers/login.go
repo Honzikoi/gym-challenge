@@ -68,6 +68,7 @@ func generateJWT(user models.Users) (string, error) {
 
 	claims := jwt.MapClaims{
 		"authorized": true,
+		"role":       user.Role.Name,
 		"user_id":    user.ID,
 		"exp":        time.Now().Add(time.Hour * 24).Unix(),
 	}

@@ -20,6 +20,8 @@ definitions:
     type: object
   models.About:
     properties:
+      about_id:
+        type: integer
       address:
         type: string
       age:
@@ -42,8 +44,6 @@ definitions:
         type: string
       updatedAt:
         type: string
-      user_id:
-        type: integer
     type: object
   models.Equipment:
     properties:
@@ -100,6 +100,27 @@ definitions:
       updatedAt:
         type: string
     type: object
+  models.Role:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      permissions:
+        type: string
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.Users'
+        type: array
+    type: object
   models.Sessions:
     properties:
       createdAt:
@@ -139,6 +160,8 @@ definitions:
     properties:
       about:
         $ref: '#/definitions/models.About'
+      about_id:
+        type: integer
       createdAt:
         type: string
       deletedAt:
@@ -146,7 +169,6 @@ definitions:
       email:
         type: string
       groups:
-        description: RoleID   uint    `json:role_id gorm:"default:1"`
         items:
           $ref: '#/definitions/models.Group'
         type: array
@@ -154,8 +176,14 @@ definitions:
         type: integer
       password:
         type: string
+      role:
+        $ref: '#/definitions/models.Role'
+      role_id:
+        type: integer
       updatedAt:
         type: string
+      user_id:
+        type: integer
       username:
         type: string
     type: object
@@ -312,6 +340,36 @@ paths:
       summary: Update an about by ID
       tags:
       - abouts
+  /coaches:
+    post:
+      consumes:
+      - application/json
+      description: Create a new coach with role ID 2
+      parameters:
+      - description: Coach
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.Users'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Users'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new coach
+      tags:
+      - Coaches
   /gyms:
     get:
       description: Get a list of all gyms
@@ -450,6 +508,135 @@ paths:
       summary: Log out a user
       tags:
       - Signup & Login
+  /roles:
+    get:
+      description: Retrieve all roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Role'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get all roles
+      tags:
+      - Roles
+    post:
+      consumes:
+      - application/json
+      description: Create a new role
+      parameters:
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Role'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create a new role
+      tags:
+      - Roles
+  /roles/{id}:
+    delete:
+      description: Delete a role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Successfully deleted
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Delete a role by ID
+      tags:
+      - Roles
+    get:
+      description: Retrieve a role by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get a role by ID
+      tags:
+      - Roles
+    put:
+      consumes:
+      - application/json
+      description: Update a role's details by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Update a role by ID
+      tags:
+      - Roles
   /sessions:
     get:
       description: Retrieve all sessions
@@ -648,6 +835,10 @@ paths:
             $ref: '#/definitions/models.Users'
         "400":
           description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
           schema:
             type: string
       summary: Create a new user

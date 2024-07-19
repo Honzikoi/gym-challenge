@@ -6,9 +6,8 @@ import (
 
 type Role struct {
 	gorm.Model
-	RoleID      uint    `json:"role_id"`
-	Name        string  `json:"name" gorm:"text;not null"`
-	Description string  `json:"description" gorm:"text;not null"`
-	Permissions string  `json:"permissions" gorm:"text;not null"`
-	Users       []Users `json:"users" gorm:"foreignKey:UserID"`
+	Name        string `json:"name" gorm:"type:text;not null"`
+	Description string `json:"description" gorm:"type:text;not null"`
+	Permissions string `json:"permissions" gorm:"type:text;not null"`
+	Users       []Users `json:"users" gorm:"foreignKey:RoleID"`
 }

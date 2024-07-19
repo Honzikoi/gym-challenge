@@ -32,6 +32,8 @@ func setupRoutes(app *fiber.App) {
 	routes.ConnectionRoutes(app)
 	routes.AboutRoutes(app)
 	routes.SessionRoutes(app)
+	routes.CoachRoutes(app)
+	routes.RoleRoutes(app)
 
 	// Protected routes
 	app.Use("/profile", middlewares.Protected())
