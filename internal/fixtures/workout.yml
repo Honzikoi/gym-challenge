@@ -1,0 +1,47 @@
+- id: 1
+  work_out_title: "Full Body Blast"
+  image_path: "/images/full_body_blast.png"
+  time_left_in_hour: 1
+  moves_number: 10
+  sets_number: 3
+  duration_in_minutes: 60
+  rating: 5
+  description: "A full-body workout to build strength and endurance."
+  reviews: "Amazing workout!"
+  comments: "Loved it!"
+  price_in_dollars: 29.99
+  has_free_trial: true
+  is_workout_of_day: true
+  session_id: 1
+
+- id: 2
+  work_out_title: "Cardio Rush"
+  image_path: "/images/cardio_rush.png"
+  time_left_in_hour: 2
+  moves_number: 8
+  sets_number: 4
+  duration_in_minutes: 45
+  rating: 4
+  description: "High-intensity cardio to get your heart pumping."
+  reviews: "Great for burning calories!"
+  comments: "A bit tough but worth it!"
+  price_in_dollars: 19.99
+  has_free_trial: false
+  is_workout_of_day: false
+  session_id: 3
+
+- id: 3
+  work_out_title: "Yoga Flow"
+  image_path: "/images/yoga_flow.png"
+  time_left_in_hour: 3
+  moves_number: 5
+  sets_number: 2
+  duration_in_minutes: 30
+  rating: 5
+  description: "Calm your mind and body with a gentle yoga flow."
+  reviews: "So relaxing!"
+  comments: "Perfect for beginners."
+  price_in_dollars: 14.99
+  has_free_trial: true
+  is_workout_of_day: false
+  session_id: 2
