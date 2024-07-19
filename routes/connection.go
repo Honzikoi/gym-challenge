@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/Honzikoi/gym-challenge/handlers"
+	"github.com/Honzikoi/gym-challenge/api/handlers"
 	"github.com/gofiber/fiber/v2"
 )
 

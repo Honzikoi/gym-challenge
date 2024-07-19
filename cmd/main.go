@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Honzikoi/gym-challenge/database"
 	_ "github.com/Honzikoi/gym-challenge/docs"
+	"github.com/Honzikoi/gym-challenge/internal/database"
 	"github.com/gofiber/fiber/v2"
 )
 

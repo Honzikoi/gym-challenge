@@ -3,7 +3,7 @@ package controllers
 import (
 	"strconv"
 
-	"github.com/Honzikoi/gym-challenge/database"
+	"github.com/Honzikoi/gym-challenge/internal/database"
 	"github.com/Honzikoi/gym-challenge/models"
 	"github.com/gofiber/fiber/v2"
 )

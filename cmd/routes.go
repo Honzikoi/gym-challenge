@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Honzikoi/gym-challenge/handlers"
-	"github.com/Honzikoi/gym-challenge/middlewares"
+	"github.com/Honzikoi/gym-challenge/api/handlers"
+	"github.com/Honzikoi/gym-challenge/api/middlewares"
 	"github.com/Honzikoi/gym-challenge/routes"
 	"github.com/gofiber/fiber/v2"
 )

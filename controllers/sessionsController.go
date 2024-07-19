@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Honzikoi/gym-challenge/database"
+	"github.com/Honzikoi/gym-challenge/internal/database"
 	"github.com/Honzikoi/gym-challenge/models"
 	"github.com/gofiber/fiber/v2"
 )
