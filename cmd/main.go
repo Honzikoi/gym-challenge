@@ -7,6 +7,7 @@ import (
 	_ "github.com/Honzikoi/gym-challenge/docs"
 	"github.com/Honzikoi/gym-challenge/internal/database"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -14,6 +15,12 @@ func main() {
 	app := fiber.New()
 
 	setupRoutes(app)
+
+	// Add CORS middleware
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 
 	// Seed the database
 	// database.Seed(database.DB.Db) Temp Comment

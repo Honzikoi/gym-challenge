@@ -17,6 +17,7 @@ type Sessions struct {
 	Date              time.Time `json:"date"`
 	Localisation      string    `json:"localisation"`
 	ExerciseType      string    `json:"exerciseType"`
+	IsActive          bool      `json:"isactive"`
 	Reviews           string    `json:"reviews"`
 	Rating            string    `json:"rating"`
 	IsWorkoutOfDay    bool      `json:"isWorkoutOfDay"`

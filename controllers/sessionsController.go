@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 	"time"
 
@@ -36,10 +37,12 @@ func GetSessions(c *fiber.Ctx) error {
 //	@Param			session	body		models.Sessions	true	"Session"
 //	@Success		201	{object}	models.Sessions
 //	@Failure		400	{string}	Cannot parse JSON
+//	@Failure		500	{string}	Internal Server Error
 //	@Router			/sessions [post]
 func CreateSession(c *fiber.Ctx) error {
 	sessions := new(models.Sessions)
 	if err := c.BodyParser(sessions); err != nil {
+		log.Println("Failed to parse request body:", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
@@ -49,6 +52,7 @@ func CreateSession(c *fiber.Ctx) error {
 	}
 
 	if err := database.DB.Db.Create(&sessions).Error; err != nil {
+		log.Println("Failed to create session:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 	}
 	return c.Status(fiber.StatusCreated).JSON(sessions)
