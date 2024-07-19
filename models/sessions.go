@@ -8,6 +8,7 @@ import (
 
 type Sessions struct {
 	gorm.Model
+	SessionID         uint      `json:"session_id"`
 	WorkOutTitle      string    `json:"workOutTitle" gorm:"not null"`
 	TimeLeftInHour    int       `json:"timeLeftInHour"`
 	MovesNumber       int       `json:"movesNumber"`
@@ -22,4 +23,6 @@ type Sessions struct {
 	Rating            int       `json:"rating"`
 	IsWorkoutOfDay    bool      `json:"isWorkoutOfDay"`
 	Name              string    `json:"name"`
+	GroupID           uint      `json:"group_id"`
+	Group             Group     `json:"group" gorm:"foreignKey:GroupID"`
 }
