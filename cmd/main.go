@@ -14,13 +14,13 @@ func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	setupRoutes(app)
-
 	// CORS configuration
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:56023", // Add your frontend origin
 		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}))
+
+	setupRoutes(app)
 
 	// Seed the database
 	// database.Seed(database.DB.Db) Temp Comment
