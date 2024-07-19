@@ -45,5 +45,5 @@ To launch the backend locally and check the Swagger APIs, follow these steps:
 ## Swagger 
 
 ```bash
-swag init -g /routes.go -d ./cmd,./controllers,./models,./handlers --parseDependency true --parseInternal 
+swag init -g /routes.go -d ./cmd,./controllers,./models,./api/handlers --parseDependency true --parseInternal
 ```

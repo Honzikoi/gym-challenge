@@ -748,6 +748,12 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -1229,20 +1235,23 @@ const docTemplate = `{
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
-                "description": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
                 },
-                "status": {
-                    "type": "string"
+                "session_id": {
+                    "type": "integer"
                 },
                 "updatedAt": {
                     "type": "string"
+                },
+                "user_creator": {
+                    "$ref": "#/definitions/models.Users"
+                },
+                "user_id": {
+                    "type": "integer"
                 },
                 "users": {
                     "type": "array",
@@ -1329,10 +1338,16 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "durationInMinutes": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "exerciseType": {
                     "type": "string"
+                },
+                "group": {
+                    "$ref": "#/definitions/models.Group"
+                },
+                "group_id": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
@@ -1340,23 +1355,32 @@ const docTemplate = `{
                 "isWorkoutOfDay": {
                     "type": "boolean"
                 },
+                "isactive": {
+                    "type": "boolean"
+                },
                 "localisation": {
                     "type": "string"
                 },
                 "movesNumber": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 },
                 "rating": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "reviews": {
                     "type": "string"
                 },
+                "session_id": {
+                    "type": "integer"
+                },
                 "setsNumber": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "timeLeftInHour": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updatedAt": {
                     "type": "string"

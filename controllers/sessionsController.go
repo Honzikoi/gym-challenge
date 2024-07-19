@@ -53,7 +53,8 @@ func CreateSession(c *fiber.Ctx) error {
 
 	// Create the group first to get its ID
 	group := models.Group{
-		Name: sessions.WorkOutTitle, // Or any appropriate name
+		Name:   sessions.WorkOutTitle, // Or any appropriate name
+		UserID: 1,                     // Set UserID to 1
 	}
 	if err := database.DB.Db.Create(&group).Error; err != nil {
 		log.Println("Failed to create group:", err)
