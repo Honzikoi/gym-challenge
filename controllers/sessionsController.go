@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 	"time"
 
@@ -36,10 +37,12 @@ func GetSessions(c *fiber.Ctx) error {
 //	@Param			session	body		models.Sessions	true	"Session"
 //	@Success		201	{object}	models.Sessions
 //	@Failure		400	{string}	Cannot parse JSON
+//	@Failure		500	{string}	Internal Server Error
 //	@Router			/sessions [post]
 func CreateSession(c *fiber.Ctx) error {
 	sessions := new(models.Sessions)
 	if err := c.BodyParser(sessions); err != nil {
+		log.Println("Failed to parse request body:", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
@@ -48,9 +51,31 @@ func CreateSession(c *fiber.Ctx) error {
 		sessions.Date = time.Now() // set current time if not provided
 	}
 
+	// Create the group first to get its ID
+	group := models.Group{
+		Name:   sessions.WorkOutTitle, // Or any appropriate name
+		UserID: 1,                     // Set UserID to 1
+	}
+	if err := database.DB.Db.Create(&group).Error; err != nil {
+		log.Println("Failed to create group:", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create group"})
+	}
+
+	// Set the GroupID in the session
+	sessions.GroupID = group.ID
+
+	// Create the session
 	if err := database.DB.Db.Create(&sessions).Error; err != nil {
+		log.Println("Failed to create session:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 	}
+
+	// Reload the session to ensure the group ID is correctly set
+	if err := database.DB.Db.Preload("Group").First(&sessions, sessions.ID).Error; err != nil {
+		log.Println("Failed to load session with group:", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
+
 	return c.Status(fiber.StatusCreated).JSON(sessions)
 }
 

@@ -12,9 +12,9 @@ func Seed(db *gorm.DB) {
 		if err := seedUsers(tx); err != nil {
 			return err
 		}
-		if err := seedGroups(tx); err != nil {
-			return err
-		}
+		// if err := seedGroups(tx); err != nil {
+		// 	return err
+		// }
 		if err := seedUserGroups(tx); err != nil {
 			return err
 		}
@@ -38,14 +38,14 @@ func seedUsers(db *gorm.DB) error {
 	return db.Create(&users).Error
 }
 
-func seedGroups(db *gorm.DB) error {
-	groups := []models.Group{
-		{Name: "Group 1", Description: "Description for Group 1", Status: "Active"},
-		{Name: "Group 2", Description: "Description for Group 2", Status: "Inactive"},
-		{Name: "Group 3", Description: "Description for Group 3", Status: "Pending"},
-	}
-	return db.Create(&groups).Error
-}
+// func seedGroups(db *gorm.DB) error {
+// 	groups := []models.Group{
+// 		{Name: "Group 1", Description: "Description for Group 1", Status: "Active"},
+// 		{Name: "Group 2", Description: "Description for Group 2", Status: "Inactive"},
+// 		{Name: "Group 3", Description: "Description for Group 3", Status: "Pending"},
+// 	}
+// 	return db.Create(&groups).Error
+// }
 
 func seedUserGroups(db *gorm.DB) error {
 	userGroups := []models.UserGroup{
