@@ -1,0 +1,23 @@
+name: Discord Notifier
+
+on: [push, pull_request]
+
+jobs:
+  notify_discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Send Notification to Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          content: "@Honzikoi. New push or pull request has been made."
+          title: "GitHub Update"
+          description: "A new update has occurred in the repository."
+          color: 0x0000ff
+          url: "https://github.com/Honzikoi/cooker"
+          username: GitHub Actions
