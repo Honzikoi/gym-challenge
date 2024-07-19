@@ -51,7 +51,7 @@ func CreateSession(c *fiber.Ctx) error {
 		sessions.Date = time.Now() // set current time if not provided
 	}
 
-	// Create the group
+	// Create the group first to get its ID
 	group := models.Group{
 		Name: sessions.WorkOutTitle, // Or any appropriate name
 	}
@@ -68,6 +68,13 @@ func CreateSession(c *fiber.Ctx) error {
 		log.Println("Failed to create session:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
 	}
+
+	// Reload the session to ensure the group ID is correctly set
+	if err := database.DB.Db.Preload("Group").First(&sessions, sessions.ID).Error; err != nil {
+		log.Println("Failed to load session with group:", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal Server Error"})
+	}
+
 	return c.Status(fiber.StatusCreated).JSON(sessions)
 }
 
