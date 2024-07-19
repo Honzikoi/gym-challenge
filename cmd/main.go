@@ -14,9 +14,9 @@ func main() {
 	database.ConnectDb()
 	app := fiber.New()
 
-	// CORS configuration
+	// Configure CORS to allow all origins
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:56023", // Add your frontend origin
+		AllowOrigins: "*", // Allow all origins
 		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}))
 
