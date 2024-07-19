@@ -16,10 +16,10 @@ func main() {
 
 	setupRoutes(app)
 
-	// Add CORS middleware
+	// CORS configuration
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+		AllowOrigins: "http://localhost:56023", // Add your frontend origin
+		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}))
 
 	// Seed the database
